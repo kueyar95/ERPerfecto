@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Database\Seeds;
+
+use CodeIgniter\Database\Seeder;
+
+class ProductSeeder extends Seeder
+{
+    public function run()
+    {
+
+        for($i = 0;$i < 20;$i++){
+            $data = [
+                'idProduct' => '115341'.$i,
+                'productName' => 'Producto '.$i,
+                'productStock'    => '246'.$i,
+                'productDescription' => null,
+                'productPrice' => '11325'.$i,
+                
+            ];
+            
+            // Using Query Builder
+
+            $this->db->table('products')->insert($data);
+        }
+    }
+
+}
