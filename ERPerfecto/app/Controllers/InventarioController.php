@@ -26,11 +26,8 @@ class InventarioController extends BaseController{
 
 
     public function addProduct(){
-
-        $this->loadDefaultView('Agregar producto',[],'addProduct');
-
+        echo "creado";
         
-       
     }
 
     public function show(){

@@ -69,7 +69,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="<?php echo route_to('addProduct') ?>" id="formAddProduct">
+                                <!--<form method="POST" action="<?php echo route_to('addInventary') ?>" id="formAddInventary">
+
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                                         <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -84,7 +85,7 @@
                                         <label class="form-check-label" for="exampleCheck1">Check me out</label>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Submit</button>
-                                </form>
+                                </form>-->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -158,19 +159,13 @@
                                         <div id="CatProduct" class="form-text">Categoría inválida</div>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="InputDescripProduct" class="form-label">Descripción</label>
-                                        <input type="text" class="form-control" id="InputDescripProduct" aria-describedby="DescripProduct">
+                                        <textarea name="descripProduct" id="InputDescripProduct" cols="60" rows="5" aria-describedby="DescripProduct" placeholder="Descripción"></textarea>
                                         <div id="DescripProduct" class="form-text">Descripción inválida</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="InputPrecioProduct" class="form-label">Precio</label>
                                         <input type="number" class="form-control" id="InputPrecioProduct" aria-describedby="PrecioProduct">
                                         <div id="PrecioProduct" class="form-text">Precio inválido</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="InputCantProduct" class="form-label">Cantidad a ingresar</label>
-                                        <input type="number" class="form-control" id="InputCantProduct" aria-describedby="CantProduct">
-                                        <div id="CantProduct" class="form-text">Cantidad inválido</div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
