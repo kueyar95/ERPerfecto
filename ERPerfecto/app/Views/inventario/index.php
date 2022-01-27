@@ -101,7 +101,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col"># producto</th>
+                            <th scope="col">SKU producto</th>
                             <th scope="col">Nombre producto</th>
                             <th scope="col">Categoría</th>
                             <th scope="col">Descripción</th>
@@ -114,7 +114,7 @@
                         ?>
                         <?php foreach ($inventary as $inv) : ?>
                             <tr>
-                                <td scope="row"><?= $inv["idProduct"]; ?></td>
+                                <td scope="row"><?= $inv["SKUProduct"]; ?></td>
                                 <td><?= $inv["productName"]; ?></td>
                                 <td><?= $inv["categoryName"]; ?></td>
                                 <td><?= $inv["productDescription"]; ?></td>
@@ -142,36 +142,45 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <form method="POST" action="<?php echo route_to('addProduct') ?>" id="formAddProduct">
+                                <?php
+                                    //echo "<pre>";
+                                    //var_dump($validation->listErrors());
+                                    //echo "</pre>";
+                                ?>
+                                <form action="<?php echo route_to('addProduct') ?>" id="formAddProduct">
                                     <div class="mb-3">
                                         <label for="InputNameProduct" class="form-label">Nombre del Producto</label>
                                         <input type="text" class="form-control" id="InputNameProduct" aria-describedby="nameProduct">
-                                        <div id="nameProduct" class="form-text">Nombre inválido</div>
+                                        <div id="errorNameProduct" class="form-text d-none">Nombre inválido o no ingresado</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="InputSKUProduct" class="form-label">SKU</label>
                                         <input type="text" class="form-control" id="InputSKUProduct" aria-describedby="SKUProduct">
-                                        <div id="SKUProduct" class="form-text">SKU inválido</div>
+                                        <div id="errorSKUProduct" class="form-text d-none">SKU inválido o no ingresado</div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="InputCatProduct" class="form-label">Categoría</label>
-                                        <input type="text" class="form-control" id="InputCatProduct" aria-describedby="CatProduct">
-                                        <div id="CatProduct" class="form-text">Categoría inválida</div>
+                                        <div class="mb-3">
+                                        <select class="form-select" id="inputCategory" aria-label="Default select example">
+                                            <option selected>Selecciona una categoria</option>
+                                            <option value="1">Celulares</option>
+                                            <option value="2">Electrodomésticos</option>
+                                            <option value="3">Consolas</option>
+                                            <option value="4">Deportes</option>
+                                            <option value="5">Música</option>
+                                        </select>
                                     </div>
                                     <div class="mb-3">
                                         <textarea name="descripProduct" id="InputDescripProduct" cols="60" rows="5" aria-describedby="DescripProduct" placeholder="Descripción"></textarea>
-                                        <div id="DescripProduct" class="form-text">Descripción inválida</div>
+                                        <div id="errorDescripProduct" class="form-text d-none">Descripción inválida</div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="InputPrecioProduct" class="form-label">Precio</label>
                                         <input type="number" class="form-control" id="InputPrecioProduct" aria-describedby="PrecioProduct">
-                                        <div id="PrecioProduct" class="form-text">Precio inválido</div>
+                                        <div id="errorPrecioProduct" class="form-text d-none">Precio inválido o no ingresado</div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
-                                    
                                 </form>
                             </div>
                             

@@ -43,7 +43,7 @@ $routes->group('inventario', function ($routes) {
     //TODO: No sé si colocar la ruta get para agregar, ya que el formulario saldrá con modal desde el home
 
     $routes->get('modificar/(:any)', 'InventarioController::modificar/$1',['as' =>'modificarProducto']);
-    $routes->post('addProduct','InventarioController::addProduct',['as' => 'addProduct']);
+    $routes->match(['get', 'post'], 'addProduct', 'InventarioController::addProduct');
     $routes->post('addInventary','InventarioController::addInventary',['as' => 'addInventary']);
 });
 
