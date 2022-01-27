@@ -18,7 +18,7 @@ class Products extends Migration
                 'constraint'     => 30,
                 'null'           => true,
             ],
-            'SKU'=>[
+            'SKUProduct'=>[
                 'type' => 'VARCHAR',
                 'constraint' => 30,
                 'null'           => true,
@@ -32,7 +32,7 @@ class Products extends Migration
                 'null' => true,
             ],
             'productPrice' => [
-                'type' => 'FLOAT'
+                'type' => 'INT'
             ]
         ]);
         $this->forge->addKey('idProduct', true);

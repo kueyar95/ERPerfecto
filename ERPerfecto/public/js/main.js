@@ -25,7 +25,7 @@ window.addEventListener('load', () => {
             SKUProduct: InputSKUProduct.value,
             idCategory: parseInt(combo.options[combo.selectedIndex].value),
             productDescription: InputDescripProduct.value,
-            productPrice: parseInt(InputPrecioProduct.value),
+            productPrice: parseFloat(InputPrecioProduct.value),
         }
         console.log(data);
         var dataJSON = JSON.stringify(data);
@@ -41,25 +41,30 @@ window.addEventListener('load', () => {
         }).then(res => res.json())
             .catch(error => console.log(error))
             .then(json => {
-                    var keysErrors = Object.getOwnPropertyNames(json);
-                    for(var val in keysErrors){
-                        if(keysErrors[val] == 'nameProduct'){
-                            if(errorNameProduct.classList.contains('d-none')){
-                                errorNameProduct.classList.remove('d-none');
-                            }
-                        }else if(keysErrors[val] == 'skuProduct'){
-                            if(errorSKUProduct.classList.contains('d-none')){
-                                errorSKUProduct.classList.remove('d-none');
-                            }
-                        }else if(keysErrors[val] == 'catProduct'){
-                            if(errorCatProduct.classList.contains('d-none')){
-                                errorCatProduct.classList.remove('d-none');
-                            }
-                        }else if(keysErrors[val] == 'precioProduct'){
-                            if(errorPrecioProduct.classList.contains('d-none')){
-                                errorPrecioProduct.classList.remove('d-none');
+                    if(json && typeof(json) != 'boolean'){
+                        console.log(json);
+                        var keysErrors = Object.getOwnPropertyNames(json);
+                        for(var val in keysErrors){
+                            if(keysErrors[val] == 'nameProduct'){
+                                if(errorNameProduct.classList.contains('d-none')){
+                                    errorNameProduct.classList.remove('d-none');
+                                }
+                            }else if(keysErrors[val] == 'skuProduct'){
+                                if(errorSKUProduct.classList.contains('d-none')){
+                                    errorSKUProduct.classList.remove('d-none');
+                                }
+                            }else if(keysErrors[val] == 'catProduct'){
+                                if(errorCatProduct.classList.contains('d-none')){
+                                    errorCatProduct.classList.remove('d-none');
+                                }
+                            }else if(keysErrors[val] == 'productPrice'){
+                                if(errorPrecioProduct.classList.contains('d-none')){
+                                    errorPrecioProduct.classList.remove('d-none');
+                                }
                             }
                         }
+                    }else{
+                        location.reload();
                     }
                     //TODO: Falta agregar el código para sacar las alertas de error una vez se envíen bien los datos
                 }
