@@ -19,10 +19,9 @@ class InventarioModel extends Model{
         }
     }
     public function crossInsert($data = NULL){
-        $db = \Config\Database::connect();
+
         if (!empty($data)) {
-                
-            $builderCross = $db->table('products');
+            $builderCross = $this->db->table('products');
             $resultCross = $builderCross->insert($data);
             if($resultCross){
                 $datSKUProd = $data['SKUProduct'];
@@ -30,12 +29,12 @@ class InventarioModel extends Model{
                     'SKUProduct' => $datSKUProd,
                     'productStock' => '',
                 ];
-                $result = $this->insert($dataInv);
+                $this->db->table('inventary')->insert($dataInv);
             }
-            
-            return $resultCross;
+            return true;
         }else{
             return false;
         }
     }
+    
 }

@@ -3,10 +3,12 @@
 
 use App\Models\InventarioModel;
 use App\Controllers\BaseController;
+use App\Database\Migrations\Inventario;
 
 class InventarioController extends BaseController{
     
     public function index(){
+        echo session('message');
         $db = \Config\Database::connect();
         $validation = \Config\Services::validation();
         $inventary = new InventarioModel();
@@ -32,8 +34,8 @@ class InventarioController extends BaseController{
         $dataFormProduct = $this->request->getJSON();
         $dataFormProduct = (array) $dataFormProduct;
         if($this->validate([
-            'productName'           => 'required|max_length[100]|alpha_numeric',
-            'SKUProduct'            => 'required|max_length[30]|alpha_numeric',
+            'productName'           => 'required|max_length[100]|alpha_numeric_punct',
+            'SKUProduct'            => 'required|max_length[30]|alpha_numeric_punct',
             'idCategory'            => 'required|numeric',
             'productDescription'    => 'alpha_numeric_punct|permit_empty',
             'productPrice'           => 'required',
@@ -55,6 +57,36 @@ class InventarioController extends BaseController{
             echo $jsonValidation;
         }
     }
+
+    public function delete(){
+        
+        
+        $inventary = new InventarioModel();
+        $SKUProduct = $this->request->uri->getSegments()[2];
+        
+       //No puede borrar si tiene stock
+       $builderSelect = $inventary->db->table('inventary')
+                                      ->select('*')
+                                      ->where('products.SKUProduct',$SKUProduct)
+                                      ->join('products','products.SKUProduct=inventary.SKUProduct')
+                                      ->get()
+                                      ->getResultArray();
+       
+      
+        /*echo "<pre>";
+        var_dump($builderSelect);
+        echo "<hr>";
+        echo "</pre>";
+        */
+        if($builderSelect[0]['productStock'] === '0'){
+            $inventary->db->table('products')->where('SKUProduct',$SKUProduct)->join('inventary', 'products.SKUProduct = inventary.SKUProduct')->delete();
+            $inventary->db->table('inventary')->where('SKUProduct',$SKUProduct)->delete();
+        }else{
+            return redirect()->to('/inventario')->with('message','No se pudo borrar');
+        }
+        return redirect()->to('/inventario')->with('message','Producto borrado con éxito');
+    }
+    
 
     public function show(){
         

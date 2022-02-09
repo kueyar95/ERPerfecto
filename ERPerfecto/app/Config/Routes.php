@@ -38,11 +38,10 @@ $routes->get('/', 'Home::index');
 
 $routes->group('inventario', function ($routes) {
     $routes->get('/', 'InventarioController::index',['as'=>'indexInventario']);
-    
-    $routes->get('eliminar/(:any)', 'InventarioController::eliminar/$1',['as'=>'eliminarProducto']);
-    //TODO: No sé si colocar la ruta get para agregar, ya que el formulario saldrá con modal desde el home
+    //TODO: por los problemas que empezó a dar el método delete, es que prefiero por el momento dejarlo como post. Más adelante se verá
+    $routes->delete('eliminar/(:any)', 'InventarioController::delete',['as' => 'eliminarProducto']);
 
-    $routes->get('modificar/(:any)', 'InventarioController::modificar/$1',['as' =>'modificarProducto']);
+    $routes->post('modificar/(:any)', 'InventarioController::edit/$1',['as' =>'editProducto']);
     $routes->match(['get', 'post'], 'addProduct', 'InventarioController::addProduct');
     $routes->post('addInventary','InventarioController::addInventary',['as' => 'addInventary']);
 });

@@ -1,0 +1,15 @@
+extends layout
+
+
+block contenido
+    .contenido-principal
+        h2 #{nombrePagina} - #{proyecto.nombre}
+
+        //Formulario
+
+        //Listado pendientes
+        //pre=vardump(proyecto)
+        //Acciones que se pueden realizar
+        .contenedor-acciones
+            a(href=`/proyectos/editar/${proyecto.id}` class="boton") Editar Proyecto
+            button#eliminar-proyecto(type="button" class="boton eliminar") Eliminar Proyecto

@@ -31,7 +31,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col"># producto</th>
+                            <th scope="col">SKU producto</th>
                             <th scope="col">Nombre producto</th>
                             <th scope="col">Cantidad</th>
                             <th scope="col">Precio</th>
@@ -43,7 +43,7 @@
                         ?>
                         <?php foreach ($inventary as $inv) : ?>
                             <tr>
-                                <td scope="row"><?= $inv["idProduct"]; ?></td>
+                                <td scope="row"><?= $inv["SKUProduct"]; ?></td>
                                 <td><?= $inv["productName"]; ?></td>
                                 <td><?= $inv["productStock"]; ?></td>
                                 <td><?= $inv["productPrice"]; ?></td>
@@ -60,7 +60,7 @@
                     Añadir inventario
                 </button>
 
-                <!-- Modal -->
+                <!-- Modal AddInventary -->
                 <div class="modal fade" id="modalAddInventory" tabindex="-1" aria-labelledby="modalAddInventoryLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -121,19 +121,78 @@
                                 <td><?= $inv["productPrice"]; ?></td>
 
                                 <td>
-                                    <a href="<?php echo route_to('eliminarProducto', $inv['idProduct']) ?>">Eliminar</a>
-                                    <a href="<?php echo route_to('modificarProducto', $inv['idProduct']) ?>">Modificar</a>
+                                    <form action="<?php echo route_to('eliminarProducto',$inv['SKUProduct']); ?>" id="formDel" method="POST">
+                                        <button id="inputSubmitDel" name="_method" value="delete">Eliminar</button>
+                                    </form>
+                                    <a data-bs-toggle="modal" data-bs-target="#editModal">Modificar</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <!-- Modal EditProduct -->
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modalEditProductLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalEditProductLabel">Editar Producto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php
+                                    //echo "<pre>";
+                                    //var_dump($validation->listErrors());
+                                    //echo "</pre>";
+                                ?>
+                                <form action="<?php echo route_to('editProducto',$inv['idProduct']) ?>" id="formEditProduct">
+                                    <div class="mb-3">
+                                        <label for="InputNameProduct" class="form-label">Nombre del Producto</label>
+                                        <input type="text" class="form-control" id="InputNameProduct" aria-describedby="nameProduct" value="<?php echo $inv['productName']; ?>">
+                                        <div id="errorNameProduct" class="form-text d-none">Nombre inválido o no ingresado</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="InputSKUProduct" class="form-label">SKU</label>
+                                        <input type="text" class="form-control" id="InputSKUProduct" aria-describedby="SKUProduct">
+                                        <div id="errorSKUProduct" class="form-text d-none">SKU inválido o no ingresado</div>
+                                    </div>
+                                        <div class="mb-3">
+                                        <select class="form-select" id="inputCategory" aria-label="Default select example">
+                                            <option selected>Selecciona una categoria</option>
+                                            <option value="1">Celulares</option>
+                                            <option value="2">Electrodomésticos</option>
+                                            <option value="3">Consolas</option>
+                                            <option value="4">Deportes</option>
+                                            <option value="5">Música</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea name="descripProduct" id="InputDescripProduct" cols="60" rows="5" aria-describedby="DescripProduct" placeholder="Descripción"></textarea>
+                                        <div id="errorDescripProduct" class="form-text d-none">Descripción inválida</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="InputPrecioProduct" class="form-label">Precio</label>
+                                        <input type="number" class="form-control" id="InputPrecioProduct" aria-describedby="PrecioProduct">
+                                        <div id="errorPrecioProduct" class="form-text d-none">Precio inválido o no ingresado</div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+
+
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAddProduct">
                     Añadir productos
                 </button>
 
-                <!-- Modal -->
+                <!-- Modal AddProduct -->
                 <div class="modal fade" id="modalAddProduct" tabindex="-1" aria-labelledby="modalAddProductLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
