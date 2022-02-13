@@ -4,6 +4,6 @@ mixin crearProyecto(proyecto = {})
         
         .campo
             label(for="nombre")  Nombre Proyecto:
-            input(value=`${proyecto.nombre}` type="text" id="inputNombre" name="nombre" placeholder="Nombre Proyecto")
+            input(value=`${proyecto.nombre ? proyecto.nombre: ''}` type="text" id="inputNombre" name="nombre" placeholder="Nombre Proyecto")
         .campo.enviar
             input(type="submit" value=`${proyecto.nombre ? 'Guardar' : 'Agregar'}` class="boton")

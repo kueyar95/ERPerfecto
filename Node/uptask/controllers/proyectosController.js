@@ -1,8 +1,13 @@
-const Proyectos = require('../models/ProyectoModels');
+const Proyectos = require('../models/ProyectosModel');
+const Tareas = require('../models/TareasModel');
 //const slug = require('slug');
 
 exports.proyectosHome = async (req,res) =>{
-    const proyectos = await Proyectos.findAll();
+
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({
+        where: {usuarioId}
+    });
     res.render("index",{
         nombrePagina: 'Proyectos',
         proyectos
@@ -10,7 +15,10 @@ exports.proyectosHome = async (req,res) =>{
 }
 
 exports.formularioProyecto = async(req,res) =>{
-    const proyectos = await Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({
+        where: {usuarioId}
+    });
     res.render('nuevoProyecto',{
         nombrePagina: 'Nuevo Proyecto',
         proyectos
@@ -18,6 +26,10 @@ exports.formularioProyecto = async(req,res) =>{
 }
 
 exports.nuevoProyecto = async (req,res) =>{
+    const usuarioId = res.locals.usuario.id;
+    const proyectos = await Proyectos.findAll({
+        where: {usuarioId}
+    });
     //Validar que tengamos algo en el input
     const nombre = req.body.nombre;
     let errores = [];
@@ -32,37 +44,55 @@ exports.nuevoProyecto = async (req,res) =>{
         })
     }else{
         //Insertar en bbdd
+        const usuarioId = res.locals.usuario.id;
             //Si hay proyectos iguales, las url quedan iguales y eso crea problemas, es mejor usar hook
             //const url = slug(nombre);
-        await Proyectos.create({nombre/*,url*/});
+        await Proyectos.create({nombre,usuarioId/*,url*/});
         res.redirect('/');
     }
 }
 
 exports.proyectoPorUrl = async (req,res,next)=>{
-    const proyectosPromise = Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({
+        where: {usuarioId}
+    });
     const proyectoPromise = Proyectos.findOne({
         where:{
             url: req.params.url
         }
     });
     const [proyectos, proyecto] = await Promise.all([proyectosPromise,proyectoPromise]);
+
+    //Una vez proyecto haya sido traído, se consultan las tareas asociadas
+
+    const tareas = await Tareas.findAll({
+        where: {
+            proyectoId: proyecto.id
+        }
+    })
+
     if(!proyecto) return next();
 
     //Render a la vista
     res.render('tareas',{
         nombrePagina: 'Tareas del Proyecto',
         proyecto,
-        proyectos
+        proyectos,
+        tareas
     })
 }
 
 exports.formularioEditar = async(req,res) =>{
-    const proyectosPromise = Proyectos.findAll();
+    const usuarioId = res.locals.usuario.id;
+    const proyectosPromise = Proyectos.findAll({
+        where: {usuarioId}
+    });;
 
     const proyectoPromise = Proyectos.findOne({
         where:{
-            id: req.params.id
+            id: req.params.id,
+            usuarioId
         }
     });
 
@@ -99,3 +129,16 @@ exports.actualizarProyecto = async (req,res) =>{
         res.redirect('/');
     }
 }
+exports.eliminarProyecto = async (req, res, next) =>{
+    //re.params o req.query
+    const {urlProyecto} = req.query;
+
+    const resultado = await Proyectos.destroy({where: {url: urlProyecto}});
+
+    if(!resultado){
+        return next();
+    }
+
+    res.status(200).send('Proyecto eliminado correctamente');
+}
+
